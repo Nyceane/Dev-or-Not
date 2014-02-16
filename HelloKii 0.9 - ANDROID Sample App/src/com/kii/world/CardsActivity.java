@@ -21,22 +21,16 @@ package com.kii.world;
 
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 
-import com.fima.cardsui.objects.Card;
-import com.fima.cardsui.objects.Card.OnCardSwiped;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
-import com.kii.world.cards.MyCard;
 import com.kii.world.cards.MyImageCard;
 
 public class CardsActivity extends Activity {
 
 	private CardUI mCardView;
+	private CardStack mStack;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,17 +41,50 @@ public class CardsActivity extends Activity {
 		mCardView = (CardUI) findViewById(R.id.cardsview);
 		mCardView.setSwipeable(true);
 		
-		CardStack stack2 = new CardStack();
-		stack2.setTitle("Job Offerings");
-		mCardView.addStack(stack2);
-
+		mStack = new CardStack();
+		mStack.setTitle("Job Offerings");
+		mCardView.addStack(mStack);
+		
 		// add AndroidViews Cards
 				
-		mCardView.addCardToLastStack(new MyImageCard("D&B Software", R.drawable.img1, this));
-		mCardView.addCardToLastStack(new MyImageCard("D&B Software", R.drawable.img1, this));
-		mCardView.addCardToLastStack(new MyImageCard("D&B Software", R.drawable.img1, this));
-		mCardView.addCardToLastStack(new MyImageCard("D&B Software", R.drawable.img1, this));
+		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
 
+			@Override
+			public void onCardDismiss() {
+				mStack.remove(mStack.getPosition());
+				mCardView.refresh();
+			}}, mStack));
+
+		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
+
+			@Override
+			public void onCardDismiss() {
+				mStack.remove(mStack.getPosition());
+				mCardView.refresh();
+			}}, mStack));
+		
+		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
+
+			@Override
+			public void onCardDismiss() {
+				mStack.remove(mStack.getPosition());
+				mCardView.refresh();
+			}}, mStack));
+		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
+
+			@Override
+			public void onCardDismiss() {
+				mStack.remove(mStack.getPosition());
+				mCardView.refresh();
+			}}, mStack));
+		
+		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
+
+			@Override
+			public void onCardDismiss() {
+				mStack.remove(mStack.getPosition());
+				mCardView.refresh();
+			}}, mStack));
 		/*
 		
 		MyCard androidViewsCard = new MyCard("www.androidviews.net");
@@ -123,5 +150,10 @@ public class CardsActivity extends Activity {
 		*/
 		// draw cards
 		mCardView.refresh();
+	}
+	
+	public interface onDismissListener
+	{
+        public void onCardDismiss();
 	}
 }

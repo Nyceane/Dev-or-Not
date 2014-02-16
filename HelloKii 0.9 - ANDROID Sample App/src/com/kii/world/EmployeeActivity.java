@@ -52,12 +52,12 @@ public class EmployeeActivity extends Activity {
 		mCardView.addStack(stack2);
 
 		// add AndroidViews Cards
-				
+				/*
 		mCardView.addCardToLastStack(new MyImageCard("D&B Software", R.drawable.img1, this));
 		mCardView.addCardToLastStack(new MyImageCard("D&B Software", R.drawable.img1, this));
 		mCardView.addCardToLastStack(new MyImageCard("D&B Software", R.drawable.img1, this));
 		mCardView.addCardToLastStack(new MyImageCard("D&B Software", R.drawable.img1, this));
-
+*/
 		/*
 		
 		MyCard androidViewsCard = new MyCard("www.androidviews.net");

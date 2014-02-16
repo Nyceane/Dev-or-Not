@@ -6,15 +6,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.objects.RecyclableCard;
+import com.kii.world.CardsActivity.onDismissListener;
 import com.kii.world.R;
 
 public class MyImageCard extends RecyclableCard {
 	Context mContext;
+	onDismissListener mListener;
+	private CardStack mStack;
 	
-	public MyImageCard(String title, int image, Context context){
+	public MyImageCard(String title, int image, Context context, onDismissListener listener, CardStack stack){
 		super(title, image);
 		mContext = context;
+		mListener = listener;
+		mStack = stack;
 	}
 
 	@Override
@@ -48,10 +54,12 @@ public class MyImageCard extends RecyclableCard {
 	{
 		Toast.makeText(mContext, "doh", Toast.LENGTH_LONG).show();
 		this.OnSwipeCard();
+		mListener.onCardDismiss();
 	}
 	
 	public void setOnNoClicked()
 	{
 		this.OnSwipeCard();
+		mListener.onCardDismiss();
 	}
 }

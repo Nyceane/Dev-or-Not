@@ -14,13 +14,11 @@ import com.kii.world.R;
 public class MyImageCard extends RecyclableCard {
 	Context mContext;
 	onDismissListener mListener;
-	private CardStack mStack;
 	
-	public MyImageCard(String title, int image, Context context, onDismissListener listener, CardStack stack){
+	public MyImageCard(String title, int image, Context context, onDismissListener listener){
 		super(title, image);
 		mContext = context;
 		mListener = listener;
-		mStack = stack;
 	}
 
 	@Override

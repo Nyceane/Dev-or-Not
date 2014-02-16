@@ -47,44 +47,44 @@ public class CardsActivity extends Activity {
 		
 		// add AndroidViews Cards
 				
-		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
+		mStack.add(new MyImageCard("Android Developer", R.drawable.img1, this, new onDismissListener(){
 
 			@Override
 			public void onCardDismiss() {
 				mStack.remove(mStack.getPosition());
 				mCardView.refresh();
-			}}, mStack));
+			}}));
 
-		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
+		mStack.add(new MyImageCard("iOS Developer", R.drawable.img1, this, new onDismissListener(){
 
 			@Override
 			public void onCardDismiss() {
 				mStack.remove(mStack.getPosition());
 				mCardView.refresh();
-			}}, mStack));
+			}}));
 		
+		mStack.add(new MyImageCard("Backend Software Engineer IV", R.drawable.img1, this, new onDismissListener(){
+
+			@Override
+			public void onCardDismiss() {
+				mStack.remove(mStack.getPosition());
+				mCardView.refresh();
+			}}));
 		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
 
 			@Override
 			public void onCardDismiss() {
 				mStack.remove(mStack.getPosition());
 				mCardView.refresh();
-			}}, mStack));
-		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
-
-			@Override
-			public void onCardDismiss() {
-				mStack.remove(mStack.getPosition());
-				mCardView.refresh();
-			}}, mStack));
+			}}));
 		
-		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
+		mStack.add(new MyImageCard("Mobile Architect", R.drawable.img1, this, new onDismissListener(){
 
 			@Override
 			public void onCardDismiss() {
 				mStack.remove(mStack.getPosition());
 				mCardView.refresh();
-			}}, mStack));
+			}}));
 		/*
 		
 		MyCard androidViewsCard = new MyCard("www.androidviews.net");

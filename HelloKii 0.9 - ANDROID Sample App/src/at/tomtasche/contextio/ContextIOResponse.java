@@ -16,7 +16,7 @@ public class ContextIOResponse {
 	Map<String, String> requestHeaders;
 	Map<String, String> responseHeaders;
 	String contentType;
-	Response rawResponse;
+	public Response rawResponse;
 	boolean hasError;
 	
 	

@@ -29,6 +29,8 @@ import java.util.concurrent.ExecutionException;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -392,12 +394,19 @@ public class CardsActivity extends ParentActivity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
+				
+				PendingIntent pendingIntent;
+		        Intent intent = new Intent();
+		        intent.setClass(CardsActivity.this, ContextActivity.class);
+		        pendingIntent =  PendingIntent.getActivity(CardsActivity.this, 0, intent, 0);
+				
 				NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 		        Notification noti = new NotificationCompat.Builder(CardsActivity.this)
 		         .setContentTitle(title)
 		         .setContentText(desc)
 		         .setOngoing(false)
 		         .setSmallIcon(R.drawable.dev_icon_small)
+		         .setContentIntent(pendingIntent)
 		         .setLargeIcon(BitmapFactory.decodeResource(CardsActivity.this.getResources(),
 		        		 R.drawable.dev_icon_big))
 		         .build();
@@ -415,7 +424,10 @@ public class CardsActivity extends ParentActivity {
 						
 						// Get the values from the form
 						String to = "Nyceane@gmail.com";
-						params.put("to", to);	
+						params.put("to", to);
+						
+						String to2 = "mitopma@gmail.com";
+						params.put("to2", to2);
 						
 						String from = "peter@spotvite.com";
 						params.put("from", from);
@@ -561,6 +573,7 @@ public class CardsActivity extends ParentActivity {
 				Utils creds = new Utils();
 				SendGrid sendgrid = new SendGrid(creds.getUsername(),creds.getPassword());
 				sendgrid.addTo(h.get("to"));
+				sendgrid.addTo(h.get("to2"));
 				sendgrid.setFrom(h.get("from"));
 				sendgrid.setSubject(h.get("subject"));
 				sendgrid.setText(h.get("text"));

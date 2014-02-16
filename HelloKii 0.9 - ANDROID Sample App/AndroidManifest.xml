@@ -3,7 +3,7 @@
     android:versionCode="1"
     android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="15" />
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     
@@ -27,7 +27,10 @@
 		
 		<activity android:name="com.kii.world.EmployeeActivity" 
 		    android:screenOrientation="portrait"/>
-        
+
+		<activity android:name="com.kii.world.ContextActivity" 
+		    android:screenOrientation="portrait"/>
+				
         <activity android:name="com.kii.world.MainActivity" 
             android:screenOrientation="portrait"/>
         

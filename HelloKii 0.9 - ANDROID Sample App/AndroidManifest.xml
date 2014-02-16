@@ -12,17 +12,28 @@
         android:name="HelloKii"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.kii.world.LoginActivity">
+        <activity android:name="com.kii.world.LoginActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-		<activity android:name="com.kii.world.CardsActivity" />
+		<activity android:name="com.kii.world.CardsActivity" 
+		    android:screenOrientation="portrait"/>
             
-        <activity android:name="com.kii.world.MainActivity" />
+        <activity android:name="com.kii.world.MainActivity" 
+            android:screenOrientation="portrait"/>
+        
+                <activity android:name="com.kii.world.ParentActivity" 
+            android:screenOrientation="portrait"/>
     
+		<activity
+                android:name="com.evernote.client.android.EvernoteOAuthActivity"
+                
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

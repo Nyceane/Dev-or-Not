@@ -28,12 +28,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.evernote.client.android.EvernoteSession;
 import com.kii.cloud.storage.KiiUser;
 import com.kii.cloud.storage.callback.KiiUserCallBack;
 import com.kii.cloud.storage.exception.app.AppException;
 
-public class LoginActivity extends Activity {
-	
+public class LoginActivity extends ParentActivity {
+
+
     private static final String TAG = "LoginActivity";
 
     // define our UI elements
@@ -157,6 +159,19 @@ public class LoginActivity extends Activity {
         mUsernameField = (TextView) findViewById(R.id.username_field);
         mPasswordField = (TextView) findViewById(R.id.password_field);
         
+        if(!mEvernoteSession.isLoggedIn())
+        {
+            mEvernoteSession.authenticate(this);
+        }
     }
+	
+	  /**
+	   * Called when the user taps the "Log in to Evernote" button.
+	   * Initiates the Evernote OAuth process
+	   */
+
+	  public void login(View view) {
+	    mEvernoteSession.authenticate(this);
+	  }
 
 }

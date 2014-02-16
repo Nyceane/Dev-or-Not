@@ -20,7 +20,7 @@ public class MyImageCard extends RecyclableCard {
 		super(title, desc, image);
 		mContext = context;
 		mYesListener = yeslistener;
-		mYesListener = nolistener;
+		mNoListener = nolistener;
 		mName = name;
 	}
 
@@ -57,7 +57,6 @@ public class MyImageCard extends RecyclableCard {
 
 	public void setOnYesClicked()
 	{
-		Toast.makeText(mContext, "doh", Toast.LENGTH_LONG).show();
 		this.OnSwipeCard();
 		mYesListener.onCardDismiss();
 	}

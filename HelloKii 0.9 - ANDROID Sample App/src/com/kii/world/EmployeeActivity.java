@@ -88,9 +88,10 @@ public class EmployeeActivity extends Activity {
 				"Developer", 
 				"John Woo", 
 				"developer with 5 year experience",
-				"www.github.com/iconcells",
-				"@iconcells", 
-				"415-633-6023", 
+				"www.github.com/markcells",
+				"@iconYooo",
+				"www.linkedin.com/in/JohnWoo",
+				"415-611-6222", 
 				"John_woo@gmail.com", 
 				R.drawable.employee_tom, 
 				this.getApplicationContext(), 
@@ -112,14 +113,64 @@ public class EmployeeActivity extends Activity {
 					}}
 				));
 
-//		mStack.add(new EmployeeCard("Peter Ma", R.drawable.employee_mark, this, new onDismissListener(){
-//
-//			@Override
-//			public void onCardDismiss() {
-//				mStack.remove(mStack.getPosition());
-//				mCardView.refresh();
-//				addItem("Peter Ma");
-//			}}));
+		mStack.add(new EmployeeCard(
+				"Designer", 
+				"Steve Job", 
+				"Designer with 15 years in Mobile",
+				"www.github.com/iconcells",
+				"@steve Job", 
+				"www.linkedin.com/in/SteveJob",
+				"415-622-6023", 
+				"Steve_Job@gmail.com", 
+				R.drawable.employee_steve, 
+				this.getApplicationContext(), 
+				new onDismissListener(){
+					
+					@Override
+					public void onCardDismiss() {
+						mStack.remove(mStack.getPosition());
+						mCardView.refresh();
+						addItem("Steve Job");					
+					}},
+					
+					new onDismissListener(){
+						
+						@Override
+						public void onCardDismiss() {
+							mStack.remove(mStack.getPosition());
+							mCardView.refresh();
+					}}
+				));
+		
+		mStack.add(new EmployeeCard(
+				"Hacker", 
+				"Mark Sucks", 
+				"Developer with 10 years in Social Network",
+				"www.github.com/MarkSucks",
+				"@MarkS", 
+				"www.linkedin.com/in/MarkS",
+				"415-622-4122", 
+				"MarkS@gmail.com", 
+				R.drawable.employee_mark, 
+				this.getApplicationContext(), 
+				new onDismissListener(){
+					
+					@Override
+					public void onCardDismiss() {
+						mStack.remove(mStack.getPosition());
+						mCardView.refresh();
+						addItem("Mark Sucks");					
+					}},
+					
+					new onDismissListener(){
+						
+						@Override
+						public void onCardDismiss() {
+							mStack.remove(mStack.getPosition());
+							mCardView.refresh();
+					}}
+				));
+		
 
 		// draw cards
 		mCardView.refresh();

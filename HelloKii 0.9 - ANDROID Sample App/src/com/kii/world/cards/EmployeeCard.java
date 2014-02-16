@@ -13,7 +13,7 @@ import com.kii.world.R;
 public class EmployeeCard extends RecyclableCard {
 	Context mContext;
 	String name;
-	String _github, _twitter, _phone, _email;
+	String _github, _twitter, _phone, _email, _linkedin;
 	onDismissListener _yesDismisser, _noDismisser;
 	
 	public EmployeeCard(
@@ -21,7 +21,8 @@ public class EmployeeCard extends RecyclableCard {
 			String name, 
 			String description, 
 			String github, 
-			String twitter, 
+			String twitter,
+			String linkedin,			
 			String phone, 
 			String email, 
 			int image, 
@@ -32,6 +33,7 @@ public class EmployeeCard extends RecyclableCard {
 		mContext = context;
 		_github = github;
 		_twitter = twitter;
+		_linkedin = linkedin;
 		_phone = phone;
 		_email = email;
 		_yesDismisser = yesDismisser;
@@ -50,6 +52,7 @@ public class EmployeeCard extends RecyclableCard {
 		((ImageView) convertView.findViewById(R.id.imageView1)).setImageResource(image);
 		((TextView) convertView.findViewById(R.id.github)).setText(_github);
 		((TextView) convertView.findViewById(R.id.twitter)).setText(_twitter);
+		((TextView) convertView.findViewById(R.id.linkedin)).setText(_linkedin);
 		((TextView) convertView.findViewById(R.id.phone)).setText(_phone);
 		((TextView) convertView.findViewById(R.id.email)).setText(_email);
 		

@@ -47,6 +47,58 @@ public class CardsActivity extends Activity {
 	private CardUI mCardView;
 	private CardStack mStack;
 	
+	private int[] companies = {
+			R.drawable.company1,
+			R.drawable.company2,
+			R.drawable.company3,
+			R.drawable.company4,
+			R.drawable.company5,
+			R.drawable.company6,
+			R.drawable.company7,
+			R.drawable.company8,
+			R.drawable.company9,
+			R.drawable.company10,
+	};
+	
+	private String[] companyNames = {
+			"Context.io",
+			"Dun and Bradstreet",
+			"Evernote",
+			"Gnip",
+			"Kii",
+			"MemSQL",
+			"Microsoft",
+			"Neo Technology",
+			"Parse + Facebook",
+			"Sendgrid"
+	};
+	
+	private String[] companyJobTitle = {
+			"Android Developer",
+			"iOS Developer",
+			"Mobile Architect",
+			"Backend Software Engineer IV",
+			"Front End UX Engineer",
+			"Android/iOS Developer",
+			"Windows Phone Dev",
+			"Python Developer",
+			"php, LAMP develoer",
+			".net/C# developer"
+	};
+	
+	private String[] companyInfo = {
+			"Context.IO, a Return Path company, is leading a new wave of innovation on email. Conversations, collaboration and document exchange happens in email on a daily basis. We provide a unique email API that makes it easy for application developers to retrieve that information and leverage it in applications such as CRM, document management, collaboration, productivity tools and project management. With Context.IO, developers focus on what's unique to their business while we manage the technical details of integrating with arcane email server protocols.",
+			"D&B (NYSE:DNB) is the world’s leading source of commercial information and insight on businesses, enabling companies to Decide with Confidence® for more than 172 years. Today, D&B’s global commercial database contains more than 225 million business records. The database is enhanced by D&B’s proprietary DUNSRight® Quality Process, which provides our customers with quality business information. This quality information is the foundation of our global solutions that customers rely on to make critical business decisions.",
+			"Evernote allows users to capture, organize, and find information across multiple platforms. Users can take notes, clip webpages, snap photos using their mobile phones, create to-dos, and record audio. All data is synchronized with the Evernote web service and made available to clients on Windows, Mac, Web, and mobile devices. Additionally, the Evernote web service performs image recognition on all incoming notes, making printed or handwritten text found within images searchable.",
+			"Gnip is the world’s largest and most trusted provider of social data. Gnip’s customers deliver social media analytics to more than 95% of the Fortune 500. Gnip delivers more than 120 billion realtime social data activities each month, providing access to data from dozens of sources including Twitter, Tumblr, Foursquare, WordPress, Disqus and more.",
+			"Kii provides end-to-end partnerships to mobile developers who want to maximize revenue, gain global distribution, and turn their apps into full-fledged businesses. It offers a unique combination of cloud backend, global distribution and monetization services.",
+			"MemSQL is a next generation database that removes the most common bottleneck most applications hit today: disk. By offering a familiar relational interface to an in-memory data tier, MemSQL empowers developers with the technology web-scale companies use to cope with massive traffic and growth. MemSQL offers orders of magnitude improvements in write and read performance and greatly simplifies application development and maintenance.",
+			"Microsoft Corporation is engaged in developing, licensing and supporting a range of software products and services. The Company operates in five segments: Windows & Windows Live Division (Windows Division), Server and Tools, Online Services Division (OSD), Microsoft Business Division (MBD), and Entertainment and Devices Division (EDD). The Company’s products include operating systems for personal computers (PCs), servers, phones, and other intelligent devices; server applications for distributed computing environments; productivity applications; business solution applications; desktop and server management tools; software development tools; video games, and online advertising.",
+			"Graphs are everywhere. From websites adding social capabilities to Telco’s providing personalized customer services to innovative bioinformatics research, organizations are adopting graph databases as the best way to model and query connected data. Neo4j researchers have pioneered graph databases since 2000 and have been instrumental in bringing the power of the graph to numerous organizations worldwide, including 25 Global 2000 customers, such as Cisco, Accenture, Deutsche Telekom, and Telenor. Serving customers in production for over a decade, Neo4j is the world’s leading graph database with the largest ecosystem of partners and tens of thousands of successful deployments.",
+			"Parse is the cloud app platform for Windows 8, Windows Phone 8, iOS, Android, JavaScript, and OS X. With Parse, you can add a scalable and powerful backend in minutes and launch a full-featured mobile or web app in record time without ever worrying about server management. Parse offers push notifications, social integration, data storage, and the ability to add rich custom logic to your app’s backend with Cloud Code. Build more with Parse.",
+			"SendGrid is a cloud-based email infrastructure and delivery service. We help companies communicate with their customers, through transactional and marketing email channels.   As an email infrastructure provider, we deliver value through increased email deliverability, low-cost and efficient scalability, business intelligence (advanced email analytics), and APIs for flexible and customizable implementation."
+	};
+	
 	/**
 	 * Mobile Service Client reference
 	 */
@@ -79,114 +131,173 @@ public class CardsActivity extends Activity {
 		mStack.setTitle("Job Offerings");
 		mCardView.addStack(mStack);
 		
+		
 		// add AndroidViews Cards
+		mStack.add(new MyImageCard(companyJobTitle[0], companyNames[0], companyInfo[0], R.drawable.company1, this, new onDismissListener(){
+
+			@Override
+			public void onCardDismiss() {
+				mStack.remove(0);
+				mCardView.refresh();
+				addItem(companyJobTitle[0]);
 				
-		mStack.add(new MyImageCard("Android Developer", R.drawable.img1, this, new onDismissListener(){
+				//put the note evernote
+			}},
+			new onDismissListener(){
+
+				@Override
+				public void onCardDismiss() {
+					mStack.remove(6);
+					mCardView.refresh();
+				}}));
+
+		mStack.add(new MyImageCard(companyJobTitle[1], companyNames[1], companyInfo[1], R.drawable.company2, this, new onDismissListener(){
 
 			@Override
 			public void onCardDismiss() {
-				mStack.remove(mStack.getPosition());
+				mStack.remove(1);
 				mCardView.refresh();
-				addItem("Android Developer");
-			}}));
+				addItem(companyJobTitle[1]);
+			}},
+			new onDismissListener(){
 
-		mStack.add(new MyImageCard("iOS Developer", R.drawable.img1, this, new onDismissListener(){
+				@Override
+				public void onCardDismiss() {
+					mStack.remove(6);
+					mCardView.refresh();
+				}}));
+		
+		mStack.add(new MyImageCard(companyJobTitle[2], companyNames[2], companyInfo[2], R.drawable.company3, this, new onDismissListener(){
 
 			@Override
 			public void onCardDismiss() {
-				mStack.remove(mStack.getPosition());
+				mStack.remove(2);
 				mCardView.refresh();
-				addItem("iOS Developer");
-			}}));
+				addItem(companyJobTitle[2]);
+			}},
+			new onDismissListener(){
+
+				@Override
+				public void onCardDismiss() {
+					mStack.remove(6);
+					mCardView.refresh();
+				}}));
 		
-		mStack.add(new MyImageCard("Backend Software Engineer IV", R.drawable.img1, this, new onDismissListener(){
+		mStack.add(new MyImageCard(companyJobTitle[3], companyNames[3], companyInfo[3], R.drawable.company4, this, new onDismissListener(){
 
 			@Override
 			public void onCardDismiss() {
-				mStack.remove(mStack.getPosition());
+				mStack.remove(3);
 				mCardView.refresh();
-				addItem("Backend Software Engineer IV");
-			}}));
-		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
+				addItem(companyJobTitle[3]);
+			}},
+			new onDismissListener(){
+
+				@Override
+				public void onCardDismiss() {
+					mStack.remove(6);
+					mCardView.refresh();
+				}}));
+		
+		mStack.add(new MyImageCard(companyJobTitle[4],companyNames[4], companyInfo[4],  R.drawable.company5, this, new onDismissListener(){
 
 			@Override
 			public void onCardDismiss() {
-				mStack.remove(mStack.getPosition());
+				mStack.remove(4);
 				mCardView.refresh();
-				addItem("D&B Software");
-			}}));
+				addItem(companyJobTitle[4]);
+			}},
+			new onDismissListener(){
+
+				@Override
+				public void onCardDismiss() {
+					mStack.remove(6);
+					mCardView.refresh();
+				}}));
 		
-		mStack.add(new MyImageCard("Mobile Architect", R.drawable.img1, this, new onDismissListener(){
+		mStack.add(new MyImageCard(companyJobTitle[5],companyNames[5], companyInfo[5],  R.drawable.company6, this, new onDismissListener(){
 
 			@Override
 			public void onCardDismiss() {
-				mStack.remove(mStack.getPosition());
+				mStack.remove(5);
 				mCardView.refresh();
-				addItem("Mobile Architect");
-			}}));
-		/*
-		
-		MyCard androidViewsCard = new MyCard("www.androidviews.net");
+				addItem(companyJobTitle[5]);
+			}},
+			new onDismissListener(){
 
-		androidViewsCard.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onCardDismiss() {
+					mStack.remove(6);
+					mCardView.refresh();
+				}}));
+		
+		mStack.add(new MyImageCard(companyJobTitle[6], companyNames[6], companyInfo[6], R.drawable.company7, this, new onDismissListener(){
 
 			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("http://www.androidviews.net/"));
-				startActivity(intent);
+			public void onCardDismiss() {
+				mStack.remove(6);
+				mCardView.refresh();
+				addItem(companyJobTitle[6]);
+			}},
+			new onDismissListener(){
 
-			}
-		});
-		/*
-		androidViewsCard.setOnLongClickListener(new OnLongClickListener() {    		
-    		
+				@Override
+				public void onCardDismiss() {
+					mStack.remove(6);
+					mCardView.refresh();
+				}}
+			));
+		
+		mStack.add(new MyImageCard(companyJobTitle[7], companyNames[7], companyInfo[7], R.drawable.company8, this, new onDismissListener(){
+
 			@Override
-			public boolean onLongClick(View v) {
-				Toast.makeText(v.getContext(), "This is a long click", Toast.LENGTH_SHORT).show();
-				return true;
-			}
+			public void onCardDismiss() {
+				mStack.remove(7);
+				mCardView.refresh();
+				addItem(companyJobTitle[7]);
+			}},
+			new onDismissListener(){
+
+				@Override
+				public void onCardDismiss() {
+					mStack.remove(6);
+					mCardView.refresh();
+				}}
+				));
 		
-		});
+		mStack.add(new MyImageCard(companyJobTitle[8], companyNames[8], companyInfo[8],  R.drawable.company9, this, new onDismissListener(){
+
+			@Override
+			public void onCardDismiss() {
+				mStack.remove(8);
+				mCardView.refresh();
+				addItem(companyJobTitle[8]);
+			}},
+			new onDismissListener(){
+
+				@Override
+				public void onCardDismiss() {
+					mStack.remove(6);
+					mCardView.refresh();
+				}}));
 		
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setData(Uri.parse("http://www.androidviews.net/"));
+		mStack.add(new MyImageCard(companyJobTitle[9], companyNames[9], companyInfo[9], R.drawable.company10, this, new onDismissListener(){
 
-		mCardView.addCardToLastStack(androidViewsCard);
-		*/
-		/*
-		CardStack stackPlay = new CardStack();
-		stackPlay.setTitle("GOOGLE PLAY CARDS");
-		mCardView.addStack(stackPlay);
-*/
-		// add one card, and then add another one to the last stack.
-		/*
-		mCardView.addCard(new MyCard("Google Play Cards"));
-		mCardView.addCardToLastStack(new MyCard("By Androguide & GadgetCheck"));
+			@Override
+			public void onCardDismiss() {
+				mStack.remove(9);
+				mCardView.refresh();
+				addItem(companyJobTitle[9]);
+			}},
+			new onDismissListener(){
 
-		mCardView.addCardToLastStack(new MyPlayCard("Google Play",
-				"This card mimics the new Google play cards look", "#33b6ea",
-				"#33b6ea", true, false));
-
-		mCardView
-				.addCardToLastStack(new MyPlayCard(
-						"Menu Overflow",
-						"The PlayCards allow you to easily set a menu overflow on your card.\nYou can also declare the left stripe's color in a String, like \"#33B5E5\" for the holo blue color, same for the title color.",
-						"#e00707", "#e00707", false, true));
-
-		// add one card
-		mCardView
-				.addCard(new MyPlayCard(
-						"Different Colors for Title & Stripe",
-						"You can set any color for the title and any other color for the left stripe",
-						"#f2a400", "#9d36d0", false, false));
-
-		mCardView
-				.addCardToLastStack(new MyPlayCard(
-						"Set Clickable or Not",
-						"You can easily implement an onClickListener on any card, but the last boolean parameter of the PlayCards allow you to toggle the clickable background.",
-						"#4ac925", "#222222", true, true));
-		*/
+				@Override
+				public void onCardDismiss() {
+					mStack.remove(6);
+					mCardView.refresh();
+				}}));
+		
+		
 		// draw cards
 		mCardView.refresh();
 		
@@ -221,6 +332,7 @@ public class CardsActivity extends Activity {
 		item.setComplete(false);
 		item.setJobTitle(jobString);
 		// Insert the new item
+		
 		mToDoTable.insert(item, new TableOperationCallback<DevJobs>() {
 
 			public void onCompleted(DevJobs entity, Exception exception, ServiceFilterResponse response) {

@@ -6,19 +6,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.objects.RecyclableCard;
 import com.kii.world.CardsActivity.onDismissListener;
 import com.kii.world.R;
 
 public class MyImageCard extends RecyclableCard {
 	Context mContext;
-	onDismissListener mListener;
+	onDismissListener mYesListener;
+	onDismissListener mNoListener;
+	String mName;
 	
-	public MyImageCard(String title, int image, Context context, onDismissListener listener){
-		super(title, image);
+	public MyImageCard(String title, String name, String desc, int image, Context context, onDismissListener yeslistener, onDismissListener nolistener){
+		super(title, desc, image);
 		mContext = context;
-		mListener = listener;
+		mYesListener = yeslistener;
+		mYesListener = nolistener;
+		mName = name;
 	}
 
 	@Override
@@ -31,6 +34,10 @@ public class MyImageCard extends RecyclableCard {
 		((TextView) convertView.findViewById(R.id.title)).setText(title);
 		((ImageView) convertView.findViewById(R.id.imageView1)).setImageResource(image);
 
+		((TextView) convertView.findViewById(R.id.company)).setText(mName);
+		((TextView) convertView.findViewById(R.id.description)).setText(desc);
+		
+		
 		((ImageView) convertView.findViewById(R.id.btnYes)).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -52,12 +59,12 @@ public class MyImageCard extends RecyclableCard {
 	{
 		Toast.makeText(mContext, "doh", Toast.LENGTH_LONG).show();
 		this.OnSwipeCard();
-		mListener.onCardDismiss();
+		mYesListener.onCardDismiss();
 	}
 	
 	public void setOnNoClicked()
 	{
 		this.OnSwipeCard();
-		mListener.onCardDismiss();
+		mNoListener.onCardDismiss();
 	}
 }

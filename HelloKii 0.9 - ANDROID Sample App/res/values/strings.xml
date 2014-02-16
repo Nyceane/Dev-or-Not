@@ -41,4 +41,10 @@
     <string name="error_creating_notestore">Error creating notestore</string>
     <string name="error_saving_note">Error saving note</string>
     <string name="error_listing_notes">Error listing note</string>
+
+	<string name="email">Email</string>
+	<string name="github">Github</string>
+	<string name="phone">Phone</string>
+	<string name="twitter">Twitter</string>
+			
 </resources>

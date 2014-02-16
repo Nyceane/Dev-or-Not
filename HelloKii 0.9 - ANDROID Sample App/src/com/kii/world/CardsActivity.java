@@ -25,12 +25,18 @@ import android.os.Bundle;
 
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
+import com.kii.cloud.storage.KiiBucket;
+import com.kii.cloud.storage.KiiObject;
+import com.kii.cloud.storage.KiiUser;
 import com.kii.world.cards.MyImageCard;
 
 public class CardsActivity extends Activity {
 
 	private CardUI mCardView;
 	private CardStack mStack;
+	
+	private static final String OBJECT_KEY = "jobString";
+	private static final String BUCKET_NAME = "myBucket";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,7 @@ public class CardsActivity extends Activity {
 			public void onCardDismiss() {
 				mStack.remove(mStack.getPosition());
 				mCardView.refresh();
+				addItem("Android Developer");
 			}}));
 
 		mStack.add(new MyImageCard("iOS Developer", R.drawable.img1, this, new onDismissListener(){
@@ -61,6 +68,7 @@ public class CardsActivity extends Activity {
 			public void onCardDismiss() {
 				mStack.remove(mStack.getPosition());
 				mCardView.refresh();
+				addItem("iOS Developer");
 			}}));
 		
 		mStack.add(new MyImageCard("Backend Software Engineer IV", R.drawable.img1, this, new onDismissListener(){
@@ -69,6 +77,7 @@ public class CardsActivity extends Activity {
 			public void onCardDismiss() {
 				mStack.remove(mStack.getPosition());
 				mCardView.refresh();
+				addItem("Backend Software Engineer IV");
 			}}));
 		mStack.add(new MyImageCard("D&B Software", R.drawable.img1, this, new onDismissListener(){
 
@@ -76,6 +85,7 @@ public class CardsActivity extends Activity {
 			public void onCardDismiss() {
 				mStack.remove(mStack.getPosition());
 				mCardView.refresh();
+				addItem("D&B Software");
 			}}));
 		
 		mStack.add(new MyImageCard("Mobile Architect", R.drawable.img1, this, new onDismissListener(){
@@ -84,6 +94,7 @@ public class CardsActivity extends Activity {
 			public void onCardDismiss() {
 				mStack.remove(mStack.getPosition());
 				mCardView.refresh();
+				addItem("Mobile Architect");
 			}}));
 		/*
 		
@@ -152,6 +163,12 @@ public class CardsActivity extends Activity {
 		mCardView.refresh();
 	}
 	
+	public void addItem(String jobString)
+	{
+		KiiBucket bucket = KiiUser.getCurrentUser().bucket(BUCKET_NAME);
+		KiiObject obj = bucket.object();
+		obj.set(OBJECT_KEY, jobString);
+	}
 	public interface onDismissListener
 	{
         public void onCardDismiss();

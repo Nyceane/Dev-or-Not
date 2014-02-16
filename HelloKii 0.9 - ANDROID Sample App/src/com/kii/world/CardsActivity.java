@@ -21,11 +21,21 @@ package com.kii.world;
 
 
 import java.net.MalformedURLException;
+import java.util.Hashtable;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -35,6 +45,7 @@ import com.evernote.edam.type.Note;
 import com.evernote.thrift.transport.TTransportException;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
+import com.github.sendgrid.SendGrid;
 import com.kii.cloud.storage.KiiBucket;
 import com.kii.cloud.storage.KiiObject;
 import com.kii.cloud.storage.KiiUser;
@@ -51,7 +62,9 @@ import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
 public class CardsActivity extends ParentActivity {
 
 	private static final String LOGTAG = "CardsActivity";
+	private int BROWSERNOTIFICATION = 400050;
 
+	
 	private CardUI mCardView;
 	private CardStack mStack;
 	
@@ -370,9 +383,67 @@ public class CardsActivity extends ParentActivity {
 		});
 	}
 	
-	public void simPushNotification(String title, String desc)
+	public void simPushNotification(final String title, final String desc)
 	{
-		saveNote(companyNames[4], companyJobTitle[4] + "<br /><br />" + companyInfo[4] + "<br /><br />" + "Dun and Bradstreet: Metrics: FY2013 (Dec.) revenues of $1.7bn and Net Income of $259,000,000 market cap.: $3.7bn.");
+		Timer timer = new Timer();
+		
+		timer.schedule(new TimerTask(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+		        Notification noti = new NotificationCompat.Builder(CardsActivity.this)
+		         .setContentTitle(title)
+		         .setContentText(desc)
+		         .setOngoing(false)
+		         .setSmallIcon(R.drawable.dev_icon_small)
+		         .setLargeIcon(BitmapFactory.decodeResource(CardsActivity.this.getResources(),
+		        		 R.drawable.dev_icon_big))
+		         .build();
+		        nm.notify(BROWSERNOTIFICATION, noti);
+		        
+				saveNote(title, desc);	
+				
+				CardsActivity.this.runOnUiThread(new Runnable(){
+
+					@Override
+					public void run() {
+						
+						Hashtable<String,String> params = new Hashtable<String,String>();
+						String result = null;
+						
+						// Get the values from the form
+						String to = "Nyceane@gmail.com";
+						params.put("to", to);	
+						
+						String from = "peter@spotvite.com";
+						params.put("from", from);
+						
+						String subject = "Dinder Match: " + title;
+						params.put("subject", subject);
+						
+						String text = desc;
+						params.put("text", text);
+						
+						// Send the Email
+						SendEmailWithSendGrid email = new SendEmailWithSendGrid();
+						try {
+							result = email.execute(params).get();
+							Log.e("result", result);
+						} catch (InterruptedException e) {
+							// TODO Implement exception handling
+							e.printStackTrace();
+						} catch (ExecutionException e) {
+							// TODO Implement exception handling
+							e.printStackTrace();
+						}						
+					}});
+
+				
+			}}, 3000);
+		
+
 
 	}
 	
@@ -460,27 +531,41 @@ public class CardsActivity extends ParentActivity {
 	    //TODO: line breaks need to be converted to render in ENML
 	    note.setContent(EvernoteUtil.NOTE_PREFIX + content + EvernoteUtil.NOTE_SUFFIX);
 
-	    showDialog(DIALOG_PROGRESS);
 	    try {
 	      mEvernoteSession.getClientFactory().createNoteStoreClient().createNote(note, new OnClientCallback<Note>() {
 	        @Override
 	        public void onSuccess(Note data) {
 	          Toast.makeText(getApplicationContext(), R.string.note_saved, Toast.LENGTH_LONG).show();
-	          removeDialog(DIALOG_PROGRESS);
 	        }
 
 	        @Override
 	        public void onException(Exception exception) {
 	          Log.e(LOGTAG, "Error saving note", exception);
 	          Toast.makeText(getApplicationContext(), R.string.error_saving_note, Toast.LENGTH_LONG).show();
-	          removeDialog(DIALOG_PROGRESS);
 	        }
 	      });
 	    } catch (TTransportException exception) {
 	      Log.e(LOGTAG, "Error creating notestore", exception);
 	      Toast.makeText(getApplicationContext(), R.string.error_creating_notestore, Toast.LENGTH_LONG).show();
-	      removeDialog(DIALOG_PROGRESS);
 	    }
 
 	  }
+	  
+		// Send an email with SendGrid's Web API, using our SendGrid Java Library
+		// https://github.com/sendgrid/sendgrid-java
+		private class SendEmailWithSendGrid extends AsyncTask<Hashtable<String,String>, Void, String> {
+
+			@Override
+			protected String doInBackground(Hashtable<String,String>... params) {
+				Hashtable<String,String> h = params[0];
+				Utils creds = new Utils();
+				SendGrid sendgrid = new SendGrid(creds.getUsername(),creds.getPassword());
+				sendgrid.addTo(h.get("to"));
+				sendgrid.setFrom(h.get("from"));
+				sendgrid.setSubject(h.get("subject"));
+				sendgrid.setText(h.get("text"));
+				String response = sendgrid.send();
+				return response;
+			}
+		}
 }

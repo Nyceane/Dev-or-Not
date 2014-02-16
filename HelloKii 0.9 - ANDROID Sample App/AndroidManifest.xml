@@ -23,7 +23,11 @@
         
 		<activity android:name="com.kii.world.CardsActivity" 
 		    android:screenOrientation="portrait"/>
-            
+        
+		
+		<activity android:name="com.kii.world.EmployeeActivity" 
+		    android:screenOrientation="portrait"/>
+        
         <activity android:name="com.kii.world.MainActivity" 
             android:screenOrientation="portrait"/>
         

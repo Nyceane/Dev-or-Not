@@ -7,4 +7,9 @@
     <string name="desc">Description</string>
 	<string name="overflow">Menu Overflow</string>
 	<string name="color_stripe">Color Stripe</string>
+	<string name="email">Email</string>
+	<string name="github">Github</string>
+	<string name="phone">Phone</string>
+	<string name="twitter">Twitter</string>
+			
 </resources>

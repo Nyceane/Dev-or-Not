@@ -32,17 +32,72 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selectable_background_cardbank"
         android:gravity="center_vertical"
-        android:padding="8dp" >
-
+        android:padding="8dp" 
+        android:orientation="vertical"
+        >
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="154dp"
-            android:layout_height="127dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:baselineAlignBottom="true"
             android:scaleType="centerCrop"
             android:src="@drawable/url1" />
 
+        <TextView
+            android:id="@+id/description"
+            style="@style/CardText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:ellipsize="end"
+            android:maxLines="7"
+            android:text="Name" />
+        
+                <TextView
+            android:id="@+id/twitter"
+            style="@style/CardText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:ellipsize="end"
+            android:maxLines="7"
+            android:text="Twitter"
+            android:drawableLeft="@drawable/twitter" />
+                
+                        <TextView
+            android:id="@+id/github"
+            style="@style/CardText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:ellipsize="end"
+            android:maxLines="7"
+            android:text="Github"
+            android:drawableLeft="@drawable/github" />
+                        
+		<TextView
+            android:id="@+id/email"
+            style="@style/CardText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:ellipsize="end"
+            android:maxLines="7"
+            android:text="Email"
+            android:drawableLeft="@drawable/email" />
+        
+				<TextView
+            android:id="@+id/phone"
+            style="@style/CardText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:ellipsize="end"
+            android:maxLines="7"
+            android:text="Phone" 
+            android:drawableLeft="@drawable/phone"/>
+		
         <TextView
             android:id="@+id/description"
             style="@style/CardText"

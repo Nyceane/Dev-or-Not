@@ -20,8 +20,12 @@
 package com.kii.world;
 
 
+import java.net.MalformedURLException;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
@@ -29,11 +33,35 @@ import com.kii.cloud.storage.KiiBucket;
 import com.kii.cloud.storage.KiiObject;
 import com.kii.cloud.storage.KiiUser;
 import com.kii.world.cards.MyImageCard;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.NextServiceFilterCallback;
+import com.microsoft.windowsazure.mobileservices.ServiceFilter;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterRequest;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterResponseCallback;
+import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
 
 public class CardsActivity extends Activity {
 
 	private CardUI mCardView;
 	private CardStack mStack;
+	
+	/**
+	 * Mobile Service Client reference
+	 */
+	private MobileServiceClient mClient;
+
+	/**
+	 * Mobile Service Table used to access data
+	 */
+	private MobileServiceTable<DevJobs> mToDoTable;
+	
+
+	/**
+	 * Progress spinner to use for table operations
+	 */
+	private ProgressBar mProgressBar;
 	
 	private static final String OBJECT_KEY = "jobString";
 	private static final String BUCKET_NAME = "myBucket";
@@ -161,6 +189,18 @@ public class CardsActivity extends Activity {
 		*/
 		// draw cards
 		mCardView.refresh();
+		
+		try {
+		mClient = new MobileServiceClient(
+				"https://devhack2014.azure-mobile.net/",
+				"iAAjAYnuCELJXSputqzBZsFuignUXR83",
+				this).withFilter(new ProgressFilter());
+
+		// Get the Mobile Service Table instance to use
+		mToDoTable = mClient.getTable(DevJobs.class);
+		} catch (MalformedURLException e) {
+			createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
+		}
 	}
 	
 	public void addItem(String jobString)
@@ -168,9 +208,99 @@ public class CardsActivity extends Activity {
 		KiiBucket bucket = KiiUser.getCurrentUser().bucket(BUCKET_NAME);
 		KiiObject obj = bucket.object();
 		obj.set(OBJECT_KEY, jobString);
+		
+		if (mClient == null) {
+			return;
+		}
+
+		// Create a new item
+		DevJobs item = new DevJobs();
+
+		item.setText("Peter Ma");
+		item.setContact("test@test.com");
+		item.setComplete(false);
+		item.setJobTitle(jobString);
+		// Insert the new item
+		mToDoTable.insert(item, new TableOperationCallback<DevJobs>() {
+
+			public void onCompleted(DevJobs entity, Exception exception, ServiceFilterResponse response) {
+				
+				if (exception == null) {
+					if (!entity.isComplete()) {
+						//mAdapter.add(entity);
+					}
+				} else {
+					createAndShowDialog(exception, "Error");
+				}
+
+			}
+		});
 	}
 	public interface onDismissListener
 	{
         public void onCardDismiss();
+	}
+	
+	/**
+	 * Creates a dialog and shows it
+	 * 
+	 * @param exception
+	 *            The exception to show in the dialog
+	 * @param title
+	 *            The dialog title
+	 */
+	private void createAndShowDialog(Exception exception, String title) {
+		Throwable ex = exception;
+		if(exception.getCause() != null){
+			ex = exception.getCause();
+		}
+		createAndShowDialog(ex.getMessage(), title);
+	}
+
+	/**
+	 * Creates a dialog and shows it
+	 * 
+	 * @param message
+	 *            The dialog message
+	 * @param title
+	 *            The dialog title
+	 */
+	private void createAndShowDialog(String message, String title) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		builder.setMessage(message);
+		builder.setTitle(title);
+		builder.create().show();
+	}
+	
+	private class ProgressFilter implements ServiceFilter {
+		
+		@Override
+		public void handleRequest(ServiceFilterRequest request, NextServiceFilterCallback nextServiceFilterCallback,
+				final ServiceFilterResponseCallback responseCallback) {
+			runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					if (mProgressBar != null) mProgressBar.setVisibility(ProgressBar.VISIBLE);
+				}
+			});
+			
+			nextServiceFilterCallback.onNext(request, new ServiceFilterResponseCallback() {
+				
+				@Override
+				public void onResponse(ServiceFilterResponse response, Exception exception) {
+					runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							if (mProgressBar != null) mProgressBar.setVisibility(ProgressBar.GONE);
+						}
+					});
+					
+					if (responseCallback != null)  responseCallback.onResponse(response, exception);
+				}
+			});
+		}
 	}
 }

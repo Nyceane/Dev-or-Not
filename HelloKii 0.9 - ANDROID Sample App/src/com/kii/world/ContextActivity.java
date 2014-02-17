@@ -75,9 +75,9 @@ public class ContextActivity extends Activity {
 						JSONArray array = json.getJSONArray("data");
 						for(int i = 0; i < array.length(); i++)
 						{
-							if(array.getJSONObject(i).has("Dinder"))
+							if(array.getJSONObject(i).getString("subject").contains("Dinder"))
 							{
-								stuff += array.getJSONObject(i).getString("subject");
+								stuff += (array.getJSONObject(i).getString("subject") + "\n");
 							}
 						}
 					}

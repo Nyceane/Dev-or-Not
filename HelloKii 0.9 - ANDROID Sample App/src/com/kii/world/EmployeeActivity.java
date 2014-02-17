@@ -21,15 +21,34 @@ package com.kii.world;
 
 
 import java.net.MalformedURLException;
+import java.util.Hashtable;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.evernote.client.android.EvernoteUtil;
+import com.evernote.client.android.OnClientCallback;
+import com.evernote.edam.type.Note;
+import com.evernote.thrift.transport.TTransportException;
 import com.fima.cardsui.objects.CardStack;
 import com.fima.cardsui.views.CardUI;
+import com.github.sendgrid.SendGrid;
 import com.kii.cloud.storage.KiiBucket;
 import com.kii.cloud.storage.KiiObject;
 import com.kii.cloud.storage.KiiUser;
@@ -43,7 +62,9 @@ import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.ServiceFilterResponseCallback;
 import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
 
-public class EmployeeActivity extends Activity {
+public class EmployeeActivity extends ParentActivity {
+	private int BROWSERNOTIFICATION = 400050;
+	private static final String LOGTAG = "CardsActivity";
 
 		/**
 	 * Mobile Service Client reference
@@ -99,7 +120,7 @@ public class EmployeeActivity extends Activity {
 					
 					@Override
 					public void onCardDismiss() {
-						mStack.remove(mStack.getPosition());
+						mStack.remove(0);
 						mCardView.refresh();
 						addItem("John Woo");					
 					}},
@@ -108,7 +129,7 @@ public class EmployeeActivity extends Activity {
 						
 						@Override
 						public void onCardDismiss() {
-							mStack.remove(mStack.getPosition());
+							mStack.remove(0);
 							mCardView.refresh();
 					}}
 				));
@@ -128,7 +149,7 @@ public class EmployeeActivity extends Activity {
 					
 					@Override
 					public void onCardDismiss() {
-						mStack.remove(mStack.getPosition());
+						mStack.remove(1);
 						mCardView.refresh();
 						addItem("Steve Job");					
 					}},
@@ -137,7 +158,7 @@ public class EmployeeActivity extends Activity {
 						
 						@Override
 						public void onCardDismiss() {
-							mStack.remove(mStack.getPosition());
+							mStack.remove(1);
 							mCardView.refresh();
 					}}
 				));
@@ -151,22 +172,23 @@ public class EmployeeActivity extends Activity {
 				"www.linkedin.com/in/MarkS",
 				"415-622-4122", 
 				"MarkS@gmail.com", 
-				R.drawable.employee_mark, 
+				R.drawable.empolyee_peter, 
 				this.getApplicationContext(), 
 				new onDismissListener(){
 					
 					@Override
 					public void onCardDismiss() {
-						mStack.remove(mStack.getPosition());
+						mStack.remove(2);
 						mCardView.refresh();
-						addItem("Peter Ma");					
+						addItem("Peter Ma");
+						simPushNotification("Hacker, Peter Ma", "Developer with 10 years in Social Network\nGithub: www.github.com/MarkSucks\nLinkedIN: www.linkedin.com/in/MarkS\nTwitter:@MarkS\nphone:415-622-4122\nemail:MarkS@gmail.com");
 					}},
 					
 					new onDismissListener(){
 						
 						@Override
 						public void onCardDismiss() {
-							mStack.remove(mStack.getPosition());
+							mStack.remove(2);
 							mCardView.refresh();
 					}}
 				));
@@ -180,13 +202,13 @@ public class EmployeeActivity extends Activity {
 				"www.linkedin.com/in/MarkS",
 				"415-622-4122", 
 				"MarkS@gmail.com", 
-				R.drawable.employee_mark, 
+				R.drawable.empolyee_mich, 
 				this.getApplicationContext(), 
 				new onDismissListener(){
 					
 					@Override
 					public void onCardDismiss() {
-						mStack.remove(mStack.getPosition());
+						mStack.remove(3);
 						mCardView.refresh();
 						addItem("Michelle Snyder");					
 					}},
@@ -195,7 +217,7 @@ public class EmployeeActivity extends Activity {
 						
 						@Override
 						public void onCardDismiss() {
-							mStack.remove(mStack.getPosition());
+							mStack.remove(3);
 							mCardView.refresh();
 					}}
 				));
@@ -215,7 +237,7 @@ public class EmployeeActivity extends Activity {
 					
 					@Override
 					public void onCardDismiss() {
-						mStack.remove(mStack.getPosition());
+						mStack.remove(4);
 						mCardView.refresh();
 						addItem("Kenneth Ng");					
 					}},
@@ -224,7 +246,7 @@ public class EmployeeActivity extends Activity {
 						
 						@Override
 						public void onCardDismiss() {
-							mStack.remove(mStack.getPosition());
+							mStack.remove(4);
 							mCardView.refresh();
 					}}
 				));	
@@ -244,7 +266,7 @@ public class EmployeeActivity extends Activity {
 					
 					@Override
 					public void onCardDismiss() {
-						mStack.remove(mStack.getPosition());
+						mStack.remove(5);
 						mCardView.refresh();
 						addItem("Mark Sucks");					
 					}},
@@ -253,7 +275,7 @@ public class EmployeeActivity extends Activity {
 						
 						@Override
 						public void onCardDismiss() {
-							mStack.remove(mStack.getPosition());
+							mStack.remove(5);
 							mCardView.refresh();
 					}}
 				));
@@ -376,4 +398,121 @@ public class EmployeeActivity extends Activity {
 			});
 		}
 	}
+	
+
+	public void simPushNotification(final String title, final String desc)
+	{
+
+				PendingIntent pendingIntent;
+		        Intent intent = new Intent();
+		        intent.setClass(EmployeeActivity.this, ContextActivity.class);
+		        pendingIntent =  PendingIntent.getActivity(EmployeeActivity.this, 0, intent, 0);
+				
+				NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+		        Notification noti = new NotificationCompat.Builder(EmployeeActivity.this)
+		         .setContentTitle(title)
+		         .setContentText(desc)
+		         .setOngoing(false)
+		         .setSmallIcon(R.drawable.dev_icon_small)
+		         .setContentIntent(pendingIntent)
+		         .setLargeIcon(BitmapFactory.decodeResource(EmployeeActivity.this.getResources(),
+		        		 R.drawable.dev_icon_big))
+		         .build();
+		        nm.notify(BROWSERNOTIFICATION, noti);
+		        
+				saveNote(title, desc);	
+				
+				EmployeeActivity.this.runOnUiThread(new Runnable(){
+
+					@Override
+					public void run() {
+						
+						Hashtable<String,String> params = new Hashtable<String,String>();
+						String result = null;
+						
+						// Get the values from the form
+						String to = "Nyceane@gmail.com";
+						params.put("to", to);
+						
+						String to2 = "ngkenneth@gmail.com";
+						params.put("to2", to2);
+						
+						String from = "peter@spotvite.com";
+						params.put("from", from);
+						
+						String subject = "Dinder Match: " + title;
+						params.put("subject", subject);
+						
+						String text = desc;
+						params.put("text", text);
+						
+						// Send the Email
+						SendEmailWithSendGrid email = new SendEmailWithSendGrid();
+						try {
+							result = email.execute(params).get();
+							Log.e("result", result);
+						} catch (InterruptedException e) {
+							// TODO Implement exception handling
+							e.printStackTrace();
+						} catch (ExecutionException e) {
+							// TODO Implement exception handling
+							e.printStackTrace();
+						}						
+					}});
+
+	}
+	
+	
+	  /**
+	   * Saves text field content as note to selected notebook, or default notebook if no notebook select
+	   */
+	  public void saveNote(String title, String content) {
+	    if (TextUtils.isEmpty(title) || TextUtils.isEmpty(content)) {
+	      Toast.makeText(getApplicationContext(), R.string.empty_content_error, Toast.LENGTH_LONG).show();
+	    }
+	    Log.e("title", title);
+	    Log.e("content", content);
+	    Note note = new Note();
+	    note.setTitle(title);
+
+	    //TODO: line breaks need to be converted to render in ENML
+	    note.setContent(EvernoteUtil.NOTE_PREFIX + content + EvernoteUtil.NOTE_SUFFIX);
+
+	    try {
+	      mEvernoteSession.getClientFactory().createNoteStoreClient().createNote(note, new OnClientCallback<Note>() {
+	        @Override
+	        public void onSuccess(Note data) {
+	          Toast.makeText(getApplicationContext(), R.string.note_saved, Toast.LENGTH_LONG).show();
+	        }
+
+	        @Override
+	        public void onException(Exception exception) {
+	          Log.e(LOGTAG, "Error saving note", exception);
+	          Toast.makeText(getApplicationContext(), R.string.error_saving_note, Toast.LENGTH_LONG).show();
+	        }
+	      });
+	    } catch (TTransportException exception) {
+	      Log.e(LOGTAG, "Error creating notestore", exception);
+	      Toast.makeText(getApplicationContext(), R.string.error_creating_notestore, Toast.LENGTH_LONG).show();
+	    }
+
+	  }
+		// Send an email with SendGrid's Web API, using our SendGrid Java Library
+		// https://github.com/sendgrid/sendgrid-java
+		private class SendEmailWithSendGrid extends AsyncTask<Hashtable<String,String>, Void, String> {
+
+			@Override
+			protected String doInBackground(Hashtable<String,String>... params) {
+				Hashtable<String,String> h = params[0];
+				Utils creds = new Utils();
+				SendGrid sendgrid = new SendGrid(creds.getUsername(),creds.getPassword());
+				sendgrid.addTo(h.get("to"));
+				sendgrid.addTo(h.get("to2"));
+				sendgrid.setFrom(h.get("from"));
+				sendgrid.setSubject(h.get("subject"));
+				sendgrid.setText(h.get("text"));
+				String response = sendgrid.send();
+				return response;
+			}
+		}
 }

@@ -10,7 +10,6 @@ import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
-import org.scribe.utils.URLUtils;
 
 /**
  * Class to manage Context.IO API access

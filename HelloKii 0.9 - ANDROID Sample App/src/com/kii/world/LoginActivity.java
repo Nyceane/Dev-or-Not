@@ -76,7 +76,7 @@ public class LoginActivity extends ParentActivity {
             		LoginActivity.this.startActivity(myIntent);
             		*/
         			
-            		Intent myIntent = new Intent(LoginActivity.this, CardsActivity.class);
+            		Intent myIntent = new Intent(LoginActivity.this, EmployeeActivity.class);
             		LoginActivity.this.startActivity(myIntent);
         		} 
         		

@@ -144,6 +144,93 @@ public class EmployeeActivity extends Activity {
 		
 		mStack.add(new EmployeeCard(
 				"Hacker", 
+				"Peter Ma", 
+				"Developer with 10 years in Social Network",
+				"www.github.com/MarkSucks",
+				"@MarkS", 
+				"www.linkedin.com/in/MarkS",
+				"415-622-4122", 
+				"MarkS@gmail.com", 
+				R.drawable.employee_mark, 
+				this.getApplicationContext(), 
+				new onDismissListener(){
+					
+					@Override
+					public void onCardDismiss() {
+						mStack.remove(mStack.getPosition());
+						mCardView.refresh();
+						addItem("Peter Ma");					
+					}},
+					
+					new onDismissListener(){
+						
+						@Override
+						public void onCardDismiss() {
+							mStack.remove(mStack.getPosition());
+							mCardView.refresh();
+					}}
+				));
+
+		mStack.add(new EmployeeCard(
+				"Heathcare.gov", 
+				"Michelle Snyder", 
+				"Director with 30 years in Health",
+				"www.github.com/MarkSucks",
+				"@MarkS", 
+				"www.linkedin.com/in/MarkS",
+				"415-622-4122", 
+				"MarkS@gmail.com", 
+				R.drawable.employee_mark, 
+				this.getApplicationContext(), 
+				new onDismissListener(){
+					
+					@Override
+					public void onCardDismiss() {
+						mStack.remove(mStack.getPosition());
+						mCardView.refresh();
+						addItem("Michelle Snyder");					
+					}},
+					
+					new onDismissListener(){
+						
+						@Override
+						public void onCardDismiss() {
+							mStack.remove(mStack.getPosition());
+							mCardView.refresh();
+					}}
+				));
+	
+		mStack.add(new EmployeeCard(
+				"Hacker", 
+				"Kenneth Ng", 
+				"Developer with 10 years in Mobile and Health App",
+				"www.github.com/MarkSucks",
+				"@MarkS", 
+				"www.linkedin.com/in/MarkS",
+				"415-622-4122", 
+				"MarkS@gmail.com", 
+				R.drawable.employee_kng, 
+				this.getApplicationContext(), 
+				new onDismissListener(){
+					
+					@Override
+					public void onCardDismiss() {
+						mStack.remove(mStack.getPosition());
+						mCardView.refresh();
+						addItem("Kenneth Ng");					
+					}},
+					
+					new onDismissListener(){
+						
+						@Override
+						public void onCardDismiss() {
+							mStack.remove(mStack.getPosition());
+							mCardView.refresh();
+					}}
+				));	
+		
+		mStack.add(new EmployeeCard(
+				"Hacker", 
 				"Mark Sucks", 
 				"Developer with 10 years in Social Network",
 				"www.github.com/MarkSucks",

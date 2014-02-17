@@ -76,7 +76,7 @@
             android:text="LinedIn"
             android:drawableLeft="@drawable/linkedin" />    
                 
-                        <TextView
+                 <TextView
             android:id="@+id/github"
             style="@style/CardText"
             android:layout_width="wrap_content"

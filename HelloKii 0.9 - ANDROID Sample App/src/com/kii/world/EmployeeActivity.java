@@ -420,7 +420,7 @@ public class EmployeeActivity extends ParentActivity {
 		         .build();
 		        nm.notify(BROWSERNOTIFICATION, noti);
 		        
-				saveNote(title, desc);	
+				//saveNote(title, desc);	
 				
 				EmployeeActivity.this.runOnUiThread(new Runnable(){
 

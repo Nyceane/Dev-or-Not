@@ -412,7 +412,7 @@ public class CardsActivity extends ParentActivity {
 		         .build();
 		        nm.notify(BROWSERNOTIFICATION, noti);
 		        
-				saveNote(title, desc);	
+				//saveNote(title, desc);	
 				
 				CardsActivity.this.runOnUiThread(new Runnable(){
 
@@ -453,7 +453,7 @@ public class CardsActivity extends ParentActivity {
 					}});
 
 				
-			}}, 3000);
+			}}, 30000);
 		
 
 
